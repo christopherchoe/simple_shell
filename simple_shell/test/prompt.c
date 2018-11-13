@@ -17,9 +17,12 @@ int print_str(char *str)
 	return (write(STDOUT_FILENO, str, i));
 }
 
-void builtin_finder(char **arglist)
+int builtin_finder(char **arglist)
 {
-	int i = 0, ret;
+	int i = 0, ret = 0;
+
+	if (!arglist)
+		return (0);
 
 	do_built built_commands[] = {
 		{"exit", exit_builtin},
@@ -27,12 +30,13 @@ void builtin_finder(char **arglist)
 		{NULL, NULL}
 	};
 
-	while (built_commands[i])
+	while (built_commands[i].command)
 	{
-		if (_strcmp(built_command[i].command, arglist[0]))
+		if (_strcmp(built_commands[i].command, arglist[0]))
 			i++;
 		else
-			ret = built_commands[i].built_cmd(arglist);
+			ret = built_commands[i++].built_cmd(arglist);
 	}
+	return (ret);
 }
 

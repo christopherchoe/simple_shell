@@ -27,7 +27,7 @@ typedef struct to_free {
   */
 typedef struct built_in {
 	char *command;
-	void (*built_cmd)(char **);
+	int (*built_cmd)(char **);
 } do_built;
 
 char **arg_list(void);
@@ -47,6 +47,15 @@ int env_builtin(char **);
 /* Utility */
 int _strlen(char *);
 int _strcmp(char *, char *);
+
+/* Path */
+void print_dir(char *);
+char *_getenv(char *, char **);
+char *cut_env(char *);
+
+/* prompt */
+int print_str(char *);
+int builtin_finder(char **);
 
 #endif /*_SHELL_H_*/
 

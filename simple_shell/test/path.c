@@ -21,6 +21,35 @@ void print_dir(char *path)
 	}
 }
 
+void print_env(char **env)
+{
+	int i = 0, k = 0;
+	char *buf;
+
+	buf = malloc(sizeof(char));
+	if (!buf)
+		return;
+
+	if (!env)
+	{
+		free(buf);
+		return;
+	}
+
+	while (env[i])
+	{
+		while (env[i][k])
+		{
+			*buf = env[i][k++];
+			write(STDOUT_FILENO, buf, 1);
+		}
+		print_str("\n");
+		i++;
+		k = 0;
+	}
+	free(buf);
+}
+
 /**
   * _getenv - gets a matching env variable or returns NULL
   *
@@ -28,16 +57,19 @@ void print_dir(char *path)
   * @env: environment variables
   * Return: the contents of a matching variable or NULL
   */
-char *_getenv(const char *name, char **env)
+char *_getenv(char *name, char **env)
 {
 	int i = 0, k = 0;
 
+	if (!env || !name)
+		return (NULL);
+
 	while (env[k])
 	{
-		if (*(name + i) != environ[k][i])
+		if (*(name + i) != env[k][i])
 		{
-			if (!(*(name + i)) && environ[k][i] == '=')
-				return (cut_env(environ[k]));
+			if (!(*(name + i)) && env[k][i] == '=')
+				return (cut_env(env[k]));
 			i = 0;
 			k++;
 		}

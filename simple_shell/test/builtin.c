@@ -3,16 +3,19 @@
 int exit_builtin(char **arglist)
 {
 	print_str("logout\n");
-	free_double(arglist);
+	if (arglist)
+		free_double(arglist);
 
-	return (0);
+	return (1);
 }
 
-void env_builtin(char **arglist)
+int env_builtin(char **arglist)
 {
 	extern char **environ;
-	char *path;
 
-	path = _getenv("PATH", environ);
-	print_dir(path);
+	print_env(environ);
+	if (arglist)
+		free_double(arglist);
+
+	return (0);
 }

@@ -4,16 +4,14 @@ int main(int argc, char **argv, char **env)
 {
 	char **arglist;
 	pid_t my_pid;
-	int status, i, k;
+	int status = 0, i, k;
 
 	print_str("#cisfun$ ");
 	while (1)
 	{
 		arglist = arg_list();
-		if (!arglist)
-			_exit(status);
 
-		if (!exit_builtin(arglist))
+		if (builtin_finder(arglist))
 			_exit(status);
 
 		my_pid = fork();
@@ -24,7 +22,7 @@ int main(int argc, char **argv, char **env)
 		}
 		if (my_pid == 0)
 		{
-			if (execve(arglist[0], arglist, NULL) == -1)
+			if (arglist && execve(arglist[0], arglist, NULL) == -1)
 				perror("./shell");
 		}
 		if (wait(&status) == -1)
@@ -49,8 +47,7 @@ char **arg_list(void)
 	if (i == -1)
 	{
 		free(buf);
-		print_str("logout\n");
-		return (NULL);
+		return (arglist = strtow("exit"));
 	}
 	*(buf + i - 1) = '\0';
 
