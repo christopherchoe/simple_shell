@@ -2,7 +2,10 @@
 
 int exit_builtin(char **arglist)
 {
+	int i = 0;
+
 	print_str("logout\n");
+
 	if (arglist)
 		free_double(arglist);
 
@@ -14,6 +17,7 @@ int env_builtin(char **arglist)
 	extern char **environ;
 
 	print_env(environ);
+
 	if (arglist)
 		free_double(arglist);
 

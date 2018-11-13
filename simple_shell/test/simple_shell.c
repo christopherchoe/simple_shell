@@ -6,8 +6,7 @@ int main(int argc, char **argv, char **env)
 	pid_t my_pid;
 	int status = 0, i, k;
 
-	print_str("#cisfun$ ");
-	while (1)
+	while (argc)
 	{
 		arglist = arg_list();
 
@@ -22,15 +21,18 @@ int main(int argc, char **argv, char **env)
 			perror("shell");
 			return (1);
 		}
-		if (my_pid == 0 && i == 0)
+		if (my_pid == 0 && i == 0 && arglist)
 		{
-	/*		if (execve(arglist[0], arglist, NULL) == -1)
-				perror("./shell");*/
-			free_double(arglist);
+			if (execve(arglist[i], arglist, NULL) == -1)
+			{
+				perror("./shell");
+				free_double(arglist);
+			}
 		}
 		if (wait(&status) == -1)
 			_exit(status);
-		print_str("#cisfun$ ");
+		if (arglist && i == 0)
+			free_double(arglist);
 	}
 	return (0);
 }
@@ -45,6 +47,8 @@ char **arg_list(void)
 	buf = malloc(sizeof(char) * 1024);
 	if (!buf)
 		return (NULL);
+
+	print_str("#cisfun$ ");
 
 	i = getline(&buf, &size_b, stdin);
 	if (i == -1)

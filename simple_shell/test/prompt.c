@@ -20,22 +20,26 @@ int print_str(char *str)
 int builtin_finder(char **arglist)
 {
 	int i = 0, ret = 0;
-
-	if (!arglist)
-		return (0);
-
 	do_built built_commands[] = {
 		{"exit", exit_builtin},
 		{"env", env_builtin},
 		{NULL, NULL}
 	};
 
+	if (!arglist)
+		return (0);
+
 	while (built_commands[i].command)
 	{
-		if (_strcmp(built_commands[i].command, arglist[0]))
+		if (_strcmp(built_commands[i].command, arglist[ret]))
+		{
 			i++;
+		}
 		else
+		{
 			ret = built_commands[i++].built_cmd(arglist);
+			break;
+		}
 	}
 	return (ret);
 }
