@@ -11,7 +11,9 @@ int main(int argc, char **argv, char **env)
 	{
 		arglist = arg_list();
 
-		if (builtin_finder(arglist))
+		i = builtin_finder(arglist);
+
+		if (i == 1)
 			_exit(status);
 
 		my_pid = fork();
@@ -20,10 +22,11 @@ int main(int argc, char **argv, char **env)
 			perror("shell");
 			return (1);
 		}
-		if (my_pid == 0)
+		if (my_pid == 0 && i == 0)
 		{
-			if (arglist && execve(arglist[0], arglist, NULL) == -1)
-				perror("./shell");
+	/*		if (execve(arglist[0], arglist, NULL) == -1)
+				perror("./shell");*/
+			free_double(arglist);
 		}
 		if (wait(&status) == -1)
 			_exit(status);

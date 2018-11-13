@@ -24,30 +24,18 @@ void print_dir(char *path)
 void print_env(char **env)
 {
 	int i = 0, k = 0;
-	char *buf;
-
-	buf = malloc(sizeof(char));
-	if (!buf)
-		return;
 
 	if (!env)
-	{
-		free(buf);
 		return;
-	}
 
 	while (env[i])
 	{
-		while (env[i][k])
-		{
-			*buf = env[i][k++];
-			write(STDOUT_FILENO, buf, 1);
-		}
+		for (k = 0; env[i][k];)
+			k++;
+		write(STDOUT_FILENO, env[i], k);
 		print_str("\n");
 		i++;
-		k = 0;
 	}
-	free(buf);
 }
 
 /**

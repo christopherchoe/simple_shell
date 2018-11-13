@@ -17,5 +17,5 @@ int env_builtin(char **arglist)
 	if (arglist)
 		free_double(arglist);
 
-	return (0);
+	return (2);
 }
