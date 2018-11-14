@@ -1,11 +1,12 @@
 #include "shell.h"
 
-int main(int argc, char **argv, char **env)
+int main(int argc, char *const argv[], char *const envp[])
 {
 	char **arglist;
 	pid_t my_pid;
 	int status = 0, ret_code = 0;
 
+	(void)argv; (void)envp;
 	while (argc)
 	{
 		arglist = arg_list();
