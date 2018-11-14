@@ -2,8 +2,6 @@
 
 int exit_builtin(char **arglist)
 {
-	int i = 0;
-
 	print_str("logout\n");
 
 	if (arglist)
