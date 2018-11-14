@@ -17,6 +17,12 @@ int print_str(char *str)
 	return (write(STDOUT_FILENO, str, i));
 }
 
+/**
+  * builtin_finder - checks if the first argument matches a built in command
+  *
+  * @arglist: argument list from our shell
+  * Return: 0 if no match, 1 if exit, non 1/0 otherwise
+  */
 int builtin_finder(char **arglist)
 {
 	int i = 0, ret = 0;
