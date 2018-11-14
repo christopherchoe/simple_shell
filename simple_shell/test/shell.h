@@ -35,7 +35,7 @@ typedef struct built_in {
 	int (*built_cmd)(char **);
 } do_built;
 
-char **arg_list(void);
+char **arg_list(int);
 
 /* free */
 void free_call(free_list *);
