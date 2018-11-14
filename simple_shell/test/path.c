@@ -1,6 +1,20 @@
 #include "shell.h"
 
 /**
+  * build_path - Adds each path directory to a NULL-terminated array
+  *
+  * @path: colon separated string of all paths
+  * Return: NULL-terminated array of dir strings
+  */
+char **build_path(char *path)
+{
+	if (!path)
+		return (NULL);
+
+	return (strtow(path, ':'));
+}
+
+/**
   * print_dir - prints the directory of the path found, one per line
   *
   * @path: colon separated string of all paths
@@ -57,7 +71,10 @@ char *_getenv(char *name, char **env)
 		if (*(name + i) != env[k][i])
 		{
 			if (!(*(name + i)) && env[k][i] == '=')
+			{
+				//printf("%s\n", cut_env(env[k]));
 				return (cut_env(env[k]));
+			}
 			i = 0;
 			k++;
 		}

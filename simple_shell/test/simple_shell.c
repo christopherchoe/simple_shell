@@ -1,18 +1,22 @@
 #include "shell.h"
 
-int main(int argc, char *const argv[], char *const envp[])
+int main(int argc, char *const argv[], char *envp[])
 {
-	char **arglist;
+	char **arglist, **pathlist;
 	pid_t my_pid;
-	int status = 0, ret_code = 0, interactive = 0;
+	int status = 0, ret_code = 0, isinteractive = 0;
 
-	(void)argv; (void)envp;
+	(void)argv;
 
-	interactive = isatty(STDIN_FILENO);
+	pathlist = build_path(_getenv("PATH", envp));
+	while (*pathlist)
+		printf("%s\n", *pathlist++);
+
+	isinteractive = isatty(STDIN_FILENO);
 
 	while (argc)
 	{
-		arglist = arg_list(interactive);
+		arglist = arg_list(isinteractive);
 
 		ret_code = builtin_finder(arglist);
 
@@ -27,10 +31,13 @@ int main(int argc, char *const argv[], char *const envp[])
 		}
 		if (my_pid == 0 && ret_code == NON_BUILTIN && arglist)
 		{
-			if (execve(arglist[NON_BUILTIN], arglist, NULL) == -1)
+			if (*arglist[NON_BUILTIN] != '/')
 			{
-				perror("./shell");
-				free_double(arglist);
+				if (execve(arglist[NON_BUILTIN], arglist, NULL) == -1)
+				{
+					perror("./shell");
+					free_double(arglist);
+				}
 			}
 		}
 		if (wait(&status) == -1) /* if child failed */
@@ -41,25 +48,25 @@ int main(int argc, char *const argv[], char *const envp[])
 	return (0);
 }
 
-char **arg_list(int interactive)
+char **arg_list(int isinteractive)
 {
 	char **arglist;
 	char *buf = NULL;
 	int i;
 	size_t size_b = 0;
 
-	if (interactive)
+	if (isinteractive)
 		print_str("#cisfun$ ");
 
 	i = getline(&buf, &size_b, stdin);
 	if (i == -1)
 	{
 		free(buf);
-		return (arglist = strtow("exit"));
+		return (arglist = strtow("exit", ' '));
 	}
 	*(buf + i - 1) = '\0';
 
-	arglist = strtow(buf);
+	arglist = strtow(buf, ' ');
 
 	free(buf);
 

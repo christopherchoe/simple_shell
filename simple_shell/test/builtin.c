@@ -2,6 +2,7 @@
 
 int exit_builtin(char **arglist)
 {
+	write(STDOUT_FILENO, "\n", 1);
 	if (arglist)
 		free_double(arglist);
 

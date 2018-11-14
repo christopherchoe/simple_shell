@@ -42,8 +42,8 @@ void free_call(free_list *);
 void free_double(char **);
 
 /* strtow */
-char **strtow(char *);
-int word_counter(char *);
+char **strtow(char *, char);
+int word_counter(char *, char);
 
 /* Built in */
 int exit_builtin(char **);
@@ -54,6 +54,7 @@ int _strlen(char *);
 int _strcmp(char *, char *);
 
 /* Path */
+char **build_path(char *);
 void print_dir(char *);
 void print_env(char **);
 char *_getenv(char *, char **);
