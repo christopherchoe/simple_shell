@@ -1,5 +1,13 @@
 #include "shell.h"
 
+/**
+  * main - runs the shell
+  *
+  * @argc: number of arguments
+  * @argv: array of arguments (strings)
+  * @envp: environmental variable array
+  * Return: 0
+  */
 int main(int argc, char *const argv[], char *envp[])
 {
 	char **arglist, **pathlist;
@@ -48,6 +56,12 @@ int main(int argc, char *const argv[], char *envp[])
 	return (0);
 }
 
+/**
+  * arg_list - obtains an argument list from the getline
+  *
+  * @isinteractive: a flag to indicate interactive mode
+  * Return: an array of strings that contain the arguments
+  */
 char **arg_list(int isinteractive)
 {
 	char **arglist;
