@@ -21,7 +21,8 @@ int main(int argc, char *const argv[], char *envp[])
 		while (*pathlist)
 			printf("%s\n", *pathlist++);
 
-		char a[] = "_str"; char b[] = "cat";
+		char a[] = "_str";
+		char b[] = "cat";
 		printf("%s works?\n", _strcat(a, b));
 	}
 	(void)argv;
@@ -81,6 +82,7 @@ char **arg_list(int isinteractive)
 	i = getline(&buf, &size_b, stdin);
 	if (i == -1)
 	{
+		write(STDOUT_FILENO, "\n", 1);
 		free(buf);
 		return (arglist = strtow("exit", ' '));
 	}
