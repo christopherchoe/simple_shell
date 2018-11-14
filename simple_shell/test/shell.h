@@ -52,6 +52,9 @@ int env_builtin(char **);
 /* Utility */
 int _strlen(char *);
 int _strcmp(char *, char *);
+char *_strcat(char *, char *);
+char *_strcpy(char *, char *);
+void *_memcpy(void *, void *, size_t);
 
 /* Path */
 char **build_path(char *);
