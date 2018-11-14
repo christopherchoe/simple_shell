@@ -4,12 +4,15 @@ int main(int argc, char *const argv[], char *const envp[])
 {
 	char **arglist;
 	pid_t my_pid;
-	int status = 0, ret_code = 0;
+	int status = 0, ret_code = 0, interactive = 0;
 
 	(void)argv; (void)envp;
+
+	interactive = isatty(STDIN_FILENO);
+
 	while (argc)
 	{
-		arglist = arg_list();
+		arglist = arg_list(interactive);
 
 		ret_code = builtin_finder(arglist);
 
@@ -38,14 +41,15 @@ int main(int argc, char *const argv[], char *const envp[])
 	return (0);
 }
 
-char **arg_list(void)
+char **arg_list(int interactive)
 {
 	char **arglist;
 	char *buf = NULL;
 	int i;
 	size_t size_b = 0;
 
-	print_str("#cisfun$ ");
+	if (interactive)
+		print_str("#cisfun$ ");
 
 	i = getline(&buf, &size_b, stdin);
 	if (i == -1)
