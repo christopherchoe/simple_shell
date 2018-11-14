@@ -1,5 +1,29 @@
 #include "shell.h"
 
+
+char *_strcat(char *dest, char *src)
+{
+	_strcpy(dest + _strlen(dest), src);
+	return (dest);
+}
+
+char *_strcpy(char *dest, char *src)
+{
+	return ( _memcpy(dest, src, _strlen(src) + 1) );
+}
+
+void *_memcpy(void *dest, void *src, size_t len)
+{
+	char *cdest = (char *)dest;
+	char *csrc  = (char *)src;
+	size_t i = 0;
+
+	for (; i < len; i++)
+		cdest[i] = csrc[i];
+
+	return (dest);
+}
+
 /**
  * _strlen - return length of a string
  * @s: char pointer for string to measure length
