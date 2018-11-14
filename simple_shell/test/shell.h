@@ -5,7 +5,12 @@
 #include <stdlib.h>
 #include <stdarg.h>
 #include <unistd.h>
+#include <sys/wait.h>
 #include <signal.h>
+
+#define EXIT_BUILTIN 1
+#define NON_BUILTIN 0
+
 
 /**
   * struct to_free - struct for holding instances of allocated memory
@@ -50,6 +55,7 @@ int _strcmp(char *, char *);
 
 /* Path */
 void print_dir(char *);
+void print_env(char **);
 char *_getenv(char *, char **);
 char *cut_env(char *);
 
