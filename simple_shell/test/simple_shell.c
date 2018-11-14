@@ -14,11 +14,15 @@ int main(int argc, char *const argv[], char *envp[])
 	pid_t my_pid;
 	int status = 0, ret_code = 0, isinteractive = 0;
 
+	/* Run with `debug` as an argument to run this block */
 	if (argc == 2 && !(_strcmp(argv[1], "debug")))
 	{
 		pathlist = build_path(_getenv("PATH", envp));
 		while (*pathlist)
 			printf("%s\n", *pathlist++);
+
+		char a[] = "_str"; char b[] = "cat";
+		printf("%s works?\n", _strcat(a, b));
 	}
 	(void)argv;
 
