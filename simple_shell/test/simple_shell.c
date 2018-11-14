@@ -40,19 +40,21 @@ int main(int argc, char **argv, char **env)
 char **arg_list(void)
 {
 	char **arglist;
-	char *buf;
+	char *buf = NULL;
 	int i;
 	size_t size_b = 1024;
 
-	buf = malloc(sizeof(char) * 1024);
+	/*buf = malloc(sizeof(char) * 1024);
 	if (!buf)
-		return (NULL);
+		return (NULL);*/
 
 	print_str("#cisfun$ ");
 
 	i = getline(&buf, &size_b, stdin);
+	printf("i == %d\n", i);
 	if (i == -1)
 	{
+		printf("Freeing buf\n");
 		free(buf);
 		return (arglist = strtow("exit"));
 	}
