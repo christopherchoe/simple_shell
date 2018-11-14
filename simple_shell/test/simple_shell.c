@@ -14,11 +14,13 @@ int main(int argc, char *const argv[], char *envp[])
 	pid_t my_pid;
 	int status = 0, ret_code = 0, isinteractive = 0;
 
+	if (argc == 2 && !(_strcmp(argv[1], "debug")))
+	{
+		pathlist = build_path(_getenv("PATH", envp));
+		while (*pathlist)
+			printf("%s\n", *pathlist++);
+	}
 	(void)argv;
-
-	pathlist = build_path(_getenv("PATH", envp));
-	while (*pathlist)
-		printf("%s\n", *pathlist++);
 
 	isinteractive = isatty(STDIN_FILENO);
 
