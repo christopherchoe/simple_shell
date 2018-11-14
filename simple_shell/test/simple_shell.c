@@ -12,7 +12,7 @@ int main(int argc, char **argv, char **env)
 
 		ret_code = builtin_finder(arglist);
 
-		if (ret_code == EXIT_BUILTIN) /* called exit_builtin */
+		if (ret_code == EXIT_BUILTIN)
 			_exit(status);
 
 		my_pid = fork();
@@ -21,7 +21,7 @@ int main(int argc, char **argv, char **env)
 			perror("shell");
 			return (1);
 		}
-		if (my_pid == 0 && ret_code == NON_BUILTIN && arglist) /* if non-builtin cmd */
+		if (my_pid == 0 && ret_code == NON_BUILTIN && arglist)
 		{
 			if (execve(arglist[NON_BUILTIN], arglist, NULL) == -1)
 			{
@@ -42,19 +42,13 @@ char **arg_list(void)
 	char **arglist;
 	char *buf = NULL;
 	int i;
-	size_t size_b = 1024;
-
-	/*buf = malloc(sizeof(char) * 1024);
-	if (!buf)
-		return (NULL);*/
+	size_t size_b = 0;
 
 	print_str("#cisfun$ ");
 
 	i = getline(&buf, &size_b, stdin);
-	printf("i == %d\n", i);
 	if (i == -1)
 	{
-		printf("Freeing buf\n");
 		free(buf);
 		return (arglist = strtow("exit"));
 	}
