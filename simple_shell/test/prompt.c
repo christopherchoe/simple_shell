@@ -21,10 +21,9 @@ int print_str(char *str)
   * builtin_finder - checks if the first argument matches a built in command
   *
   * @arglist: argument list from our shell
-  * @envp: environment variables
   * Return: 0 if no match, 1 if exit, non 1/0 otherwise
   */
-int builtin_finder(char **arglist, char **envp)
+int builtin_finder(char **arglist)
 {
 	int i = 0, ret = 0;
 	do_built built_commands[] = {
@@ -44,10 +43,9 @@ int builtin_finder(char **arglist, char **envp)
 		}
 		else
 		{
-			ret = built_commands[i++].built_cmd(arglist, envp);
+			ret = built_commands[i++].built_cmd(arglist, environ);
 			break;
 		}
 	}
 	return (ret);
 }
-

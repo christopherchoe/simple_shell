@@ -62,22 +62,21 @@ void print_env(char **env)
   * _getenv - gets a matching env variable or returns NULL
   *
   * @name: name of env variable we want
-  * @env: environment variables
   * Return: the contents of a matching variable or NULL
   */
-char *_getenv(char *name, char **env)
+char *_getenv(char *name)
 {
 	int i = 0, k = 0;
 
-	if (!env || !name)
+	if (!environ || !name)
 		return (NULL);
 
-	while (env[k])
+	while (environ[k])
 	{
-		if (*(name + i) != env[k][i])
+		if (*(name + i) != environ[k][i])
 		{
-			if (!(*(name + i)) && env[k][i] == '=')
-				return (cut_env(env[k]));
+			if (!(*(name + i)) && environ[k][i] == '=')
+				return (cut_env(environ[k]));
 			i = 0;
 			k++;
 		}

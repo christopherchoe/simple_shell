@@ -4,16 +4,15 @@
   * check_path - checks if path with command exists
   *
   * @str: string to add to path
-  * @envp: environmental variables
   * Return: the path if valid, NULL otherwise
   */
-char *check_path(char *str, char **envp)
+char *check_path(char *str)
 {
 	char **pathlist = NULL;
 	char *full_cmd = NULL;
 	int i;
 
-	pathlist = build_path(_getenv("PATH", envp));
+	pathlist = build_path(_getenv("PATH"));
 
 	for (i = 0; pathlist[i]; i++)
 	{
@@ -38,10 +37,9 @@ char *check_path(char *str, char **envp)
   *
   * @argc: number of arguments
   * @argv: array of arguments (strings)
-  * @envp: environmental variable array
   * Return: 0
   */
-int main(int argc, char *const argv[], char *envp[])
+int main(int argc, char *const argv[])
 {
 	char **arglist = NULL;
 	char *full_cmd = NULL;
@@ -56,7 +54,7 @@ int main(int argc, char *const argv[], char *envp[])
 	{
 		arglist = arg_list(isinteractive);
 
-		ret_code = builtin_finder(arglist, envp);
+		ret_code = builtin_finder(arglist);
 
 		if (ret_code == EXIT_BUILTIN)
 			_exit(status);
@@ -72,7 +70,7 @@ int main(int argc, char *const argv[], char *envp[])
 		{
 			if (*arglist[NON_BUILTIN] != '/')
 			{
-				full_cmd = check_path(arglist[NON_BUILTIN], envp);
+				full_cmd = check_path(arglist[NON_BUILTIN]);
 				if (full_cmd && execve(full_cmd, arglist, NULL) == -1)
 				{
 					perror("not found");

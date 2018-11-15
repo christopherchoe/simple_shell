@@ -11,8 +11,9 @@
 #define EXIT_BUILTIN 1
 #define NON_BUILTIN 0
 
+extern char **environ;
 
-/**
+/*
   * struct to_free - struct for holding instances of allocated memory
   * @mall: the instance of allocated memory
   * @next: pointer to next to_free struct in linked list
@@ -35,7 +36,7 @@ typedef struct built_in {
 	int (*built_cmd)(char **, char **);
 } do_built;
 
-char *check_path(char *, char **);
+char *check_path(char *);
 char **arg_list(int);
 
 /* free */
@@ -59,12 +60,12 @@ char *_strcat_dir(char *, char *);
 char **build_path(char *);
 void print_dir(char *);
 void print_env(char **);
-char *_getenv(char *, char **);
+char *_getenv(char *);
 char *cut_env(char *);
 
 /* prompt */
 int print_str(char *);
-int builtin_finder(char **, char **);
+int builtin_finder(char **);
 
 #endif /*_SHELL_H_*/
 
