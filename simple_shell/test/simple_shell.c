@@ -9,7 +9,7 @@
   */
 char *check_path(char *str, char **envp)
 {
-	char **pathlist;
+	char **pathlist = NULL;
 	char *full_cmd = NULL;
 	int i;
 
@@ -23,10 +23,13 @@ char *check_path(char *str, char **envp)
 		else
 			break;
 	}
+	if (!pathlist[i])
+	{
+		free_double(pathlist);
+		return (str);
+	}
 	if (pathlist)
 		free_double(pathlist);
-	if (!pathlist[i])
-		return (str);
 	return (full_cmd);
 }
 
@@ -112,7 +115,8 @@ char **arg_list(int isinteractive)
 	i = getline(&buf, &size_b, stdin);
 	if (i == -1)
 	{
-		write(STDOUT_FILENO, "\n", 1);
+		if (isinteractive)
+			write(STDOUT_FILENO, "\n", 1);
 		free(buf);
 		return (arglist = strtow("exit", ' '));
 	}
