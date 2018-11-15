@@ -35,6 +35,7 @@ typedef struct built_in {
 	int (*built_cmd)(char **, char **);
 } do_built;
 
+char *check_path(char *, char **);
 char **arg_list(int);
 
 /* free */

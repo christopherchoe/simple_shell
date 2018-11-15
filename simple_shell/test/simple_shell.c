@@ -1,5 +1,32 @@
 #include "shell.h"
-#include <string.h>
+
+/**
+  * check_path - checks if path with command exists
+  *
+  * @str: string to add to path
+  * @envp: environmental variables
+  * Return: the path if valid, NULL otherwise
+  */
+char *check_path(char *str, char **envp)
+{
+	char **pathlist;
+	char *full_cmd = NULL;
+	int i;
+
+	pathlist = build_path(_getenv("PATH", envp));
+
+	for (i = 0; pathlist[i]; i++)
+	{
+		full_cmd = _strcat_dir(pathlist[i], str);
+		if (access(full_cmd, F_OK))
+			free(full_cmd);
+		else
+			break;
+	}
+	free_double(pathlist);
+	return (full_cmd);
+}
+
 
 /**
   * main - runs the shell
@@ -24,21 +51,15 @@ int main(int argc, char *const argv[], char *envp[])
 	{
 		arglist = arg_list(isinteractive);
 
-		pathlist = build_path(_getenv("PATH", envp));
-
 		ret_code = builtin_finder(arglist, envp);
 
 		if (ret_code == EXIT_BUILTIN)
-		{
-			free_double(pathlist);
 			_exit(status);
-		}
 
 		my_pid = fork();
 		if (my_pid == -1)
 		{
 			free_double(arglist);
-			free_double(pathlist);
 			perror("shell");
 			return (1);
 		}
@@ -46,21 +67,16 @@ int main(int argc, char *const argv[], char *envp[])
 		{
 			if (*arglist[NON_BUILTIN] != '/')
 			{
-				int i = 0;
-				for (; pathlist[i]; i++)
+				full_cmd = check_path(arglist[NON_BUILTIN], envp);
+				if (full_cmd && (execve(full_cmd, arglist, NULL) == -1))
 				{
-					full_cmd = _strcat_dir(pathlist[i], arglist[NON_BUILTIN]);
-					if (!access(full_cmd, F_OK))
-					{
-						if (execve(full_cmd, arglist, NULL) == -1)
-						{
-							free(full_cmd);
-							free_double(pathlist);
-							perror("./shell");
-							free_double(arglist);
-						}
-						break;
-					}
+					perror("not found");
+					free_double(arglist);
+					free(full_cmd);
+				}
+				else
+				{
+					perror("not found");
 				}
 			}
 			else
@@ -69,19 +85,13 @@ int main(int argc, char *const argv[], char *envp[])
 				{
 					perror("not found");
 					free_double(arglist);
-					free_double(pathlist);
 				}
 			}
 		}
 		if (wait(&status) == -1) /* if child failed */
 			_exit(status);
 		if (arglist && ret_code == NON_BUILTIN)
-		{
-			if (full_cmd)
-				free(full_cmd);
-			free_double(pathlist);
 			free_double(arglist);
-		}
 	}
 	return (0);
 }
