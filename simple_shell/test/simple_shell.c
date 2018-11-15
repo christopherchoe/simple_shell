@@ -43,7 +43,7 @@ char *check_path(char *str, char **envp)
   */
 int main(int argc, char *const argv[], char *envp[])
 {
-	char **arglist, **pathlist;
+	char **arglist = NULL;
 	char *full_cmd = NULL;
 	pid_t my_pid;
 	int status = 0, ret_code = 0, isinteractive = 0;
@@ -65,7 +65,7 @@ int main(int argc, char *const argv[], char *envp[])
 		if (my_pid == -1)
 		{
 			free_double(arglist);
-			perror("shell");
+			perror("fork failed");
 			return (1);
 		}
 		if (my_pid == 0 && ret_code == NON_BUILTIN && arglist)

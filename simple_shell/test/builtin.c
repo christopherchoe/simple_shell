@@ -9,6 +9,7 @@
   */
 int exit_builtin(char **arglist, char **envp)
 {
+	(void)envp;
 	if (arglist)
 		free_double(arglist);
 
