@@ -23,10 +23,12 @@ char *check_path(char *str, char **envp)
 		else
 			break;
 	}
-	free_double(pathlist);
+	if (pathlist)
+		free_double(pathlist);
+	if (!pathlist[i])
+		return (str);
 	return (full_cmd);
 }
-
 
 /**
   * main - runs the shell
@@ -68,15 +70,10 @@ int main(int argc, char *const argv[], char *envp[])
 			if (*arglist[NON_BUILTIN] != '/')
 			{
 				full_cmd = check_path(arglist[NON_BUILTIN], envp);
-				if (full_cmd && (execve(full_cmd, arglist, NULL) == -1))
+				if (full_cmd && execve(full_cmd, arglist, NULL) == -1)
 				{
 					perror("not found");
 					free_double(arglist);
-					free(full_cmd);
-				}
-				else
-				{
-					perror("not found");
 				}
 			}
 			else
