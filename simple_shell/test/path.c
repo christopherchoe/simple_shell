@@ -35,6 +35,12 @@ void print_dir(char *path)
 	}
 }
 
+/**
+  * print_env - prints the environment variables
+  *
+  * @env: pointer to array of environment variables
+  * Return: void
+  */
 void print_env(char **env)
 {
 	int i = 0, k = 0;
@@ -71,10 +77,7 @@ char *_getenv(char *name, char **env)
 		if (*(name + i) != env[k][i])
 		{
 			if (!(*(name + i)) && env[k][i] == '=')
-			{
-				//printf("%s\n", cut_env(env[k]));
 				return (cut_env(env[k]));
-			}
 			i = 0;
 			k++;
 		}

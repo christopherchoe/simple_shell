@@ -32,7 +32,7 @@ typedef struct to_free {
   */
 typedef struct built_in {
 	char *command;
-	int (*built_cmd)(char **);
+	int (*built_cmd)(char **, char **);
 } do_built;
 
 char **arg_list(int);
@@ -46,8 +46,8 @@ char **strtow(char *, char);
 int word_counter(char *, char);
 
 /* Built in */
-int exit_builtin(char **);
-int env_builtin(char **);
+int exit_builtin(char **, char **);
+int env_builtin(char **, char **);
 
 /* Utility */
 int _strlen(char *);
@@ -65,7 +65,7 @@ char *cut_env(char *);
 
 /* prompt */
 int print_str(char *);
-int builtin_finder(char **);
+int builtin_finder(char **, char **);
 
 #endif /*_SHELL_H_*/
 
