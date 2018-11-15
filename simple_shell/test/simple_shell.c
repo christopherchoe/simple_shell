@@ -79,13 +79,10 @@ int main(int argc, char *const argv[], char *envp[])
 					free_double(arglist);
 				}
 			}
-			else
+			else if (execve(arglist[NON_BUILTIN], arglist, NULL) == -1)
 			{
-				if (execve(arglist[NON_BUILTIN], arglist, NULL) == -1)
-				{
-					perror("not found");
-					free_double(arglist);
-				}
+				perror("not found");
+				free_double(arglist);
 			}
 		}
 		if (wait(&status) == -1) /* if child failed */
