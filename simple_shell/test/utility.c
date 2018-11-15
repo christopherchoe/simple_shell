@@ -1,12 +1,22 @@
 #include "shell.h"
 
-
+/**
+  * _strcat - concatenates two strings
+  *
+  * @dest: first string
+  * @src: second string
+  * Return: dest which will have concatenated string
+  */
 char *_strcat(char *dest, char *src)
 {
 	_strcpy(dest + _strlen(dest), src);
 	return (dest);
 }
 
+/**
+  * _strcpy - copies a string 
+  *
+  */
 char *_strcpy(char *dest, char *src)
 {
 	return ( _memcpy(dest, src, _strlen(src) + 1) );
