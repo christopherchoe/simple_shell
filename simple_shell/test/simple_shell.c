@@ -12,20 +12,10 @@
 int main(int argc, char *const argv[], char *envp[])
 {
 	char **arglist, **pathlist;
+	char *full_cmd = NULL;
 	pid_t my_pid;
 	int status = 0, ret_code = 0, isinteractive = 0;
 
-	/* Run with `debug` as an argument to run this block */
-	if (argc == 2 && !(_strcmp(argv[1], "debug")))
-	{
-		pathlist = build_path(_getenv("PATH", envp));
-		while (*pathlist)
-			printf("%s\n", *pathlist++);
-
-		char a[] = "_str";
-		char b[] = "cat";
-		printf("%s works?\n", _strcat(a, b));
-	}
 	(void)argv;
 
 	isinteractive = isatty(STDIN_FILENO);
@@ -34,14 +24,21 @@ int main(int argc, char *const argv[], char *envp[])
 	{
 		arglist = arg_list(isinteractive);
 
-		ret_code = builtin_finder(arglist);
+		pathlist = build_path(_getenv("PATH", envp));
+
+		ret_code = builtin_finder(arglist, envp);
 
 		if (ret_code == EXIT_BUILTIN)
+		{
+			free_double(pathlist);
 			_exit(status);
+		}
 
 		my_pid = fork();
 		if (my_pid == -1)
 		{
+			free_double(arglist);
+			free_double(pathlist);
 			perror("shell");
 			return (1);
 		}
@@ -52,13 +49,13 @@ int main(int argc, char *const argv[], char *envp[])
 				int i = 0;
 				for (; pathlist[i]; i++)
 				{
-					char *path = strdup(pathlist[i]);
-					char *full_cmd = _strcat(path, "/");
-					full_cmd = _strcat(full_cmd, arglist[NON_BUILTIN]);
+					full_cmd = _strcat_dir(pathlist[i], arglist[NON_BUILTIN]);
 					if (!access(full_cmd, F_OK))
 					{
 						if (execve(full_cmd, arglist, NULL) == -1)
 						{
+							free(full_cmd);
+							free_double(pathlist);
 							perror("./shell");
 							free_double(arglist);
 						}
@@ -68,14 +65,23 @@ int main(int argc, char *const argv[], char *envp[])
 			}
 			else
 			{
-				perror("not found");
-				free_double(arglist);
+				if (execve(arglist[NON_BUILTIN], arglist, NULL) == -1)
+				{
+					perror("not found");
+					free_double(arglist);
+					free_double(pathlist);
+				}
 			}
 		}
 		if (wait(&status) == -1) /* if child failed */
 			_exit(status);
 		if (arglist && ret_code == NON_BUILTIN)
+		{
+			if (full_cmd)
+				free(full_cmd);
+			free_double(pathlist);
 			free_double(arglist);
+		}
 	}
 	return (0);
 }
