@@ -1,4 +1,5 @@
 #include "shell.h"
+#include <string.h>
 
 /**
   * main - runs the shell
@@ -48,11 +49,27 @@ int main(int argc, char *const argv[], char *envp[])
 		{
 			if (*arglist[NON_BUILTIN] != '/')
 			{
-				if (execve(arglist[NON_BUILTIN], arglist, NULL) == -1)
+				int i = 0;
+				for (; pathlist[i]; i++)
 				{
-					perror("./shell");
-					free_double(arglist);
+					char *path = strdup(pathlist[i]);
+					char *full_cmd = _strcat(path, "/");
+					full_cmd = _strcat(full_cmd, arglist[NON_BUILTIN]);
+					if (!access(full_cmd, F_OK))
+					{
+						if (execve(full_cmd, arglist, NULL) == -1)
+						{
+							perror("./shell");
+							free_double(arglist);
+						}
+						break;
+					}
 				}
+			}
+			else
+			{
+				perror("not found");
+				free_double(arglist);
 			}
 		}
 		if (wait(&status) == -1) /* if child failed */
