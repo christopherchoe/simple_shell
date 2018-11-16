@@ -67,7 +67,7 @@ int main(int argc, char *const argv[])
 			if (*arglist[NON_BUILTIN] != '/')
 			{
 				full_cmd = check_path(arglist[NON_BUILTIN]);
-				if (full_cmd && execve(NULL, arglist, NULL) == -1)
+				if (full_cmd && execve(full_cmd, arglist, NULL) == -1)
 					error_call(0, full_cmd, arglist);
 			}
 			else if (execve(arglist[NON_BUILTIN], arglist, NULL) == -1)
