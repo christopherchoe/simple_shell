@@ -12,9 +12,6 @@ char *_strcat_dir(char *dest, char *src)
 	char *cat;
 	int i, k = 0;
 
-	if (!dest || !src)
-		return (NULL);
-
 	cat = malloc(sizeof(char) * (_strlen(dest) + _strlen(src) + 2));
 	if (!cat)
 		return (NULL);

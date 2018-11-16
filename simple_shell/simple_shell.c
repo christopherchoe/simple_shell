@@ -110,6 +110,9 @@ char **arg_list(int isinteractive)
 	*(buf + i - 1) = '\0';
 
 	arglist = strtow(buf, ' ');
+	i = 0;
+	while (arglist[i])
+		printf("%s\n", arglist[i++]);
 
 	free(buf);
 

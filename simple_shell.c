@@ -45,15 +45,12 @@ int main(int argc, char *const argv[])
 	char *full_cmd = NULL;
 	pid_t my_pid;
 	int status = 0, ret_code = 0, isinteractive = 0;
-
 	(void)argv;
 
 	isinteractive = isatty(STDIN_FILENO);
-
 	while (argc)
 	{
 		arglist = arg_list(isinteractive);
-
 		ret_code = builtin_finder(arglist);
 
 		if (ret_code == EXIT_BUILTIN)
@@ -62,8 +59,7 @@ int main(int argc, char *const argv[])
 		my_pid = fork();
 		if (my_pid == -1)
 		{
-			free_double(arglist);
-			perror("fork failed");
+			error_call(0, "fork failed", arglist);
 			return (1);
 		}
 		if (my_pid == 0 && ret_code == NON_BUILTIN && arglist)
@@ -72,15 +68,11 @@ int main(int argc, char *const argv[])
 			{
 				full_cmd = check_path(arglist[NON_BUILTIN]);
 				if (full_cmd && execve(full_cmd, arglist, NULL) == -1)
-				{
-					perror("not found");
-					free_double(arglist);
-				}
+					error_call(0, full_cmd, arglist);
 			}
 			else if (execve(arglist[NON_BUILTIN], arglist, NULL) == -1)
 			{
-				perror("not found");
-				free_double(arglist);
+				error_call(0, "not found", arglist);
 			}
 		}
 		if (wait(&status) == -1) /* if child failed */
@@ -118,8 +110,25 @@ char **arg_list(int isinteractive)
 	*(buf + i - 1) = '\0';
 
 	arglist = strtow(buf, ' ');
+	i = 0;
+	while (arglist[i])
+		printf("%s\n", arglist[i++]);
 
 	free(buf);
 
 	return (arglist);
+}
+
+/**
+  * error_call - function for freeing and returning an error
+  *
+  * @
+  * @
+  * Return:
+  */
+int error_call(int n, char *err, char **arglist)
+{
+	perror(err);
+	free_double(arglist);
+	return (n);
 }

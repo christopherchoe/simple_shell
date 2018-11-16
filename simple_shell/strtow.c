@@ -48,7 +48,7 @@ char **strtow(char *str, char delim)
 		if (!a[current_word])
 			return (NULL);
 		a[current_word][0] = '\0';
-	}*/
+	}
 	a[word_count] = NULL;
 	return (a);
 }
