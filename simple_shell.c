@@ -54,7 +54,7 @@ int main(int argc, char *const argv[])
 		ret_code = builtin_finder(arglist);
 
 		if (ret_code == EXIT_BUILTIN)
-			_exit(status);
+			exit(0);
 
 		my_pid = fork();
 		if (my_pid == -1)
