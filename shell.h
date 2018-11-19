@@ -7,23 +7,14 @@
 #include <unistd.h>
 #include <sys/wait.h>
 #include <signal.h>
+#include <errno.h>
 
 #define EXIT_BUILTIN 1
 #define NON_BUILTIN 0
 
 extern char **environ;
 
-/*
-  * struct to_free - struct for holding instances of allocated memory
-  * @mall: the instance of allocated memory
-  * @next: pointer to next to_free struct in linked list
-  * Description: struct to create a linked list of allocated memory to free at
-  * any exit of program.
-  */
-typedef struct to_free {
-	char *mall;
-	struct to_free *next;
-} free_list;
+extern int errno;
 
 /**
   * struct built_in - struct for matching commands to built in commands
@@ -31,7 +22,8 @@ typedef struct to_free {
   * @built_cmd: the built in command to call if command matches
   * Description: Special built in commands for custom shell
   */
-typedef struct built_in {
+typedef struct built_in
+{
 	char *command;
 	int (*built_cmd)(char **, char **);
 } do_built;
@@ -41,7 +33,6 @@ char **arg_list(int);
 int error_call(int, char *, char **);
 
 /* free */
-void free_call(free_list *);
 void free_double(char **);
 
 /* strtow */
@@ -57,6 +48,7 @@ int env_builtin(char **, char **);
 int _strlen(char *);
 int _strcmp(char *, char *);
 char *_strcat_dir(char *, char *);
+int _atoi(char *);
 
 /* Path */
 char **build_path(char *);
