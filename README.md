@@ -11,10 +11,10 @@
 ## Description
 **hsh** is a simple command line interpreter based on the functionality of the POSIX 1003.2-conformant Dash command line interpreter on Ubuntu 14.04. It was implemented as part of a group project for the low-level programming track at Holberton School in San Francisco. For pedagogical reasons, **hsh** was written using only limited subset of the C89 standard library (see [Implementation](#implementation)).
 ## Installation
-- Clone this repository: 
-`git clone "https://github.com/christopherchoe/simple_shell.git"`
-- Compile all `C` source files in the `simple_shell`  directory using `gcc 4.8` or later: 
-`gcc -Wall -pedantic -Werror -Wextra *.c -o hsh`
+- Clone this repository: <br>
+`git clone "https://github.com/christopherchoe/simple_shell.git"`</br>
+- Compile all `C` source files in the `simple_shell`  directory using `gcc 4.8` or later: <br>
+`gcc -Wall -pedantic -Werror -Wextra *.c -o hsh`</br>
 ## Usage
 - To run in interactive mode: `./hsh`
 - To run in non-interactive mode: `echo "ls -l" | ./hsh`
