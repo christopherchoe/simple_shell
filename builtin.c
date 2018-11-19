@@ -16,7 +16,10 @@ int exit_builtin(char **arglist, char **envp)
 	{
 		i = _atoi(arglist[1]);
 		if (i <= 0)
-			perror("illegal number");
+		{
+			i = -99;
+			write(STDOUT_FILENO, "illegal number\n", 15);
+		}
 	}
 
 	if (arglist)

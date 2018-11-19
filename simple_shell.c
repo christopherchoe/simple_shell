@@ -53,7 +53,7 @@ int main(int argc, char *const argv[])
 		arglist = arg_list(isinteractive);
 		ret_code = builtin_finder(arglist);
 
-		if (ret_code != -1 && ret_code != -2)
+		if (ret_code >= 0)
 			exit(ret_code);
 
 		my_pid = fork();
