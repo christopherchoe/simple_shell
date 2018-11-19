@@ -8,10 +8,29 @@
   */
 char **build_path(char *path)
 {
+	char **pathlist;
+	int i = 0;
+
 	if (!path)
 		return (NULL);
 
-	return (strtow(path, ':'));
+	pathlist = strtow(path, ':');
+
+	if (pathlist)
+		return (pathlist);
+	pathlist = malloc(sizeof(char **));
+	if (!pathlist)
+		return (NULL);
+	pathlist[i] = malloc(sizeof(char) * 2);
+	if (!pathlist[i])
+	{
+		free(pathlist);
+		return (NULL);
+	}
+	pathlist[i][i] = '.';
+	pathlist[i][1] = '\0';
+	return (pathlist);
+
 }
 
 /**

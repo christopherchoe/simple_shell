@@ -44,10 +44,11 @@ char **strtow(char *str, char delim)
 	}
 	if (*(str + i - 1) == ':' && delim == ':')
 	{
-		a[current_word] = _malloc(1, a);
+		a[current_word] = _malloc(2, a);
 		if (!a[current_word])
 			return (NULL);
-		a[current_word][0] = '\0';
+		a[current_word][0] = '.';
+		a[current_word][1] = '\0';
 	}
 	a[word_count] = NULL;
 	return (a);
@@ -88,6 +89,8 @@ int word_counter(char *str, char delim)
 		if (!*(str + i))
 			break;
 	}
+	if (delim != ':')
+		return (count);
 	for (i = 0, count = 1; *(str + i) && delim == ':'; i++)
 	{
 		if (*(str + i) == delim)
