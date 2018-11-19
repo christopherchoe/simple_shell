@@ -25,7 +25,7 @@ extern int errno;
 typedef struct built_in
 {
 	char *command;
-	int (*built_cmd)(char **, char **);
+	char (*built_cmd)(char **, char **);
 } do_built;
 
 char *check_path(char *);
@@ -41,8 +41,8 @@ int word_counter(char *, char);
 char *_malloc(int n, char **);
 
 /* Built in */
-int exit_builtin(char **, char **);
-int env_builtin(char **, char **);
+char exit_builtin(char **, char **);
+char env_builtin(char **, char **);
 
 /* Utility */
 int _strlen(char *);

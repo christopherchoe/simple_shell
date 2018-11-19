@@ -44,7 +44,8 @@ int main(int argc, char *const argv[])
 	char **arglist = NULL;
 	char *full_cmd = NULL;
 	pid_t my_pid;
-	int status = 0, ret_code = -1, isinteractive = 0;
+	int status = 0, isinteractive = 0;
+	char ret_code = -1;
 	(void)argv;
 
 	isinteractive = isatty(STDIN_FILENO);
