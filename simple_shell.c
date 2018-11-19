@@ -55,7 +55,6 @@ int main(int argc, char *const argv[])
 
 		if (ret_code >= 0)
 			exit(ret_code);
-
 		my_pid = fork();
 		if (my_pid == -1)
 		{

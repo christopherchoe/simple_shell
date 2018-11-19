@@ -30,7 +30,6 @@ char **build_path(char *path)
 	pathlist[i][i] = '.';
 	pathlist[i][1] = '\0';
 	return (pathlist);
-
 }
 
 /**
