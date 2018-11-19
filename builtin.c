@@ -5,9 +5,9 @@
   *
   * @arglist: arguments list
   * @envp: environment variables
-  * Return: returns 1 to signal exit
+  * Return: returns -1 to signal exit
   */
-int exit_builtin(char **arglist, char **envp)
+char exit_builtin(char **arglist, char **envp)
 {
 	int i = 0;
 	(void)envp;
@@ -35,7 +35,7 @@ int exit_builtin(char **arglist, char **envp)
   * @envp: environment variables
   * Return: -2 to indicate non exit, but found builtin
   */
-int env_builtin(char **arglist, char **envp)
+char env_builtin(char **arglist, char **envp)
 {
 	print_env(envp);
 
