@@ -25,7 +25,7 @@ int print_str(char *str)
   */
 int builtin_finder(char **arglist)
 {
-	int i = 0, ret = 0;
+	int i = 0, ret = -1, use = 0;
 	do_built built_commands[] = {
 		{"exit", exit_builtin},
 		{"env", env_builtin},
@@ -33,11 +33,11 @@ int builtin_finder(char **arglist)
 	};
 
 	if (!arglist)
-		return (0);
+		return (-1);
 
 	while (built_commands[i].command)
 	{
-		if (_strcmp(built_commands[i].command, arglist[ret]))
+		if (_strcmp(built_commands[i].command, arglist[use]))
 		{
 			i++;
 		}

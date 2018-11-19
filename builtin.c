@@ -9,11 +9,20 @@
   */
 int exit_builtin(char **arglist, char **envp)
 {
+	int i = 0;
 	(void)envp;
+
+	if (arglist && arglist[1])
+	{
+		i = _atoi(arglist[1]);
+		if (i <= 0)
+			perror("illegal number");
+	}
+
 	if (arglist)
 		free_double(arglist);
 
-	return (1);
+	return (i);
 }
 
 /**
@@ -21,7 +30,7 @@ int exit_builtin(char **arglist, char **envp)
   *
   * @arglist: arguments list
   * @envp: environment variables
-  * Return: 2 to indicate non exit, but found builtin
+  * Return: -2 to indicate non exit, but found builtin
   */
 int env_builtin(char **arglist, char **envp)
 {
@@ -30,5 +39,5 @@ int env_builtin(char **arglist, char **envp)
 	if (arglist)
 		free_double(arglist);
 
-	return (2);
+	return (-2);
 }

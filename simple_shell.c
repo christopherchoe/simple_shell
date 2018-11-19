@@ -44,7 +44,7 @@ int main(int argc, char *const argv[])
 	char **arglist = NULL;
 	char *full_cmd = NULL;
 	pid_t my_pid;
-	int status = 0, ret_code = 0, isinteractive = 0;
+	int status = 0, ret_code = -1, isinteractive = 0;
 	(void)argv;
 
 	isinteractive = isatty(STDIN_FILENO);
@@ -53,8 +53,8 @@ int main(int argc, char *const argv[])
 		arglist = arg_list(isinteractive);
 		ret_code = builtin_finder(arglist);
 
-		if (ret_code == EXIT_BUILTIN)
-			exit(0);
+		if (ret_code != -1 && ret_code != -2)
+			exit(ret_code);
 
 		my_pid = fork();
 		if (my_pid == -1)
@@ -62,7 +62,7 @@ int main(int argc, char *const argv[])
 			error_call(0, "fork failed", arglist);
 			return (1);
 		}
-		if (my_pid == 0 && ret_code == NON_BUILTIN && arglist)
+		if (my_pid == 0 && ret_code == -1 && arglist)
 		{
 			if (*arglist[NON_BUILTIN] != '/')
 			{
@@ -77,7 +77,7 @@ int main(int argc, char *const argv[])
 		}
 		if (wait(&status) == -1) /* if child failed */
 			_exit(status);
-		if (arglist && ret_code == NON_BUILTIN)
+		if (arglist && ret_code == -1)
 			free_double(arglist);
 	}
 	return (0);

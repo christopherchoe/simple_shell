@@ -45,6 +45,7 @@ int env_builtin(char **, char **);
 int _strlen(char *);
 int _strcmp(char *, char *);
 char *_strcat_dir(char *, char *);
+int _atoi(char *);
 
 /* Path */
 char **build_path(char *);
