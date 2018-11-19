@@ -10,18 +10,15 @@
 char **strtow(char *str, char delim)
 {
 	char **a;
-	int i, k, n, word_count = 0, word_len = 0, current_word = 0;
+	int i = 0, k, n, word_count = 0, word_len = 0, current_word = 0;
 
-	if (str == NULL || *str == '\0')
-		return (NULL);
 	word_count = word_counter(str, delim);
 	if (word_count == 0)
 		return (NULL);
-
 	a = malloc(sizeof(char *) * (word_count + 1));
 	if (a == NULL)
 		return (NULL);
-	for (i = 0, k = i; current_word < word_count && *(str + i); i++, word_len = 0, k = i)
+	for (k = i; current_word < word_count && *(str + i); i++, word_len = 0, k = i)
 	{
 		if (*(str + i) == ':' && word_len == 0 && delim == ':')
 		{
@@ -54,6 +51,13 @@ char **strtow(char *str, char delim)
 	return (a);
 }
 
+/**
+  * _malloc - allocates memory for n chars and frees the 2D array on failure
+  *
+  * @n: number of chars to allocate memory for
+  * @a: 2D array that string will be a part of
+  * Return: the pointer to chars for which memory has been allocated
+  */
 char *_malloc(int n, char **a)
 {
 	char *ret;
@@ -78,7 +82,7 @@ int word_counter(char *str, char delim)
 {
 	int i, count = 0;
 
-	if (!str)
+	if (!str || *str == '\0')
 		return (0);
 	for (i = 0; *(str + i) && delim != ':'; i++)
 	{
